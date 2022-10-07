@@ -1,0 +1,2 @@
+# ProgramowanieObiektoweLab
+Zadania na laby 
