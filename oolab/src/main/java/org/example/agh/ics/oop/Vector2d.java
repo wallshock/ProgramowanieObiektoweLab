@@ -10,7 +10,6 @@ public class Vector2d {
     }
 
     boolean precedes(Vector2d other){
-
         return x <= other.x && y <= other.y;
     }
 
@@ -28,8 +27,7 @@ public class Vector2d {
 
     @Override
     public String toString() {
-        return "(%d, %d)".formatted(x, y);  //%d -> int
+        return "(%d, %d)".formatted(x, y);
     }
-
 
 }
