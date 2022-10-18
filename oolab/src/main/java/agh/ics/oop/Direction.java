@@ -1,4 +1,4 @@
-package org.example.agh.ics.oop;
+package agh.ics.oop;
 
 enum Direction {
     FORWARD,
