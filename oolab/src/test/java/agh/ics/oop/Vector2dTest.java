@@ -11,10 +11,9 @@ public class Vector2dTest {
         Vector2d a = new Vector2d(2, 4);
         Vector2d b = new Vector2d(2, 4);
         Vector2d c = new Vector2d(1, 1);
-        assertEquals(a, b); //assertEquals(a.equals(b), true);
+        assertEquals(a, b);
         assertEquals(b, b);
         assertNotEquals(c, b);
-
     }
     @Test
     public void toStringTest(){

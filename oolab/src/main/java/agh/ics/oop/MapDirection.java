@@ -4,7 +4,9 @@ public enum MapDirection{
     NORTH,
     SOUTH,
     WEST,
-    EAST;
+    EAST,
+
+    OTHER;
 
     public String toString(){
         switch(this){

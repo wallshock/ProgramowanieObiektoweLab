@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class MapDirectionTest {
     @Test
-    void MapDirectionNext_WhenMapDirectionEast_ShouldReturnSouth(){
+    void MapDirectionNext(){
         MapDirection mapDirection = MapDirection.EAST;
         assertEquals(MapDirection.SOUTH,mapDirection.next());
         mapDirection = MapDirection.SOUTH;
@@ -16,7 +16,7 @@ public class MapDirectionTest {
     }
 
     @Test
-    void MapDirectionPrevious_WhenMapDirectionEast_ShouldReturnNorth(){
+    void MapDirectionPrevious(){
         MapDirection mapDirection = MapDirection.EAST;
         assertEquals(MapDirection.NORTH,mapDirection.previous());
         mapDirection = MapDirection.SOUTH;
