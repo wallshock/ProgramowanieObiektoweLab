@@ -4,21 +4,51 @@ import static agh.ics.oop.Direction.RIGHT;
 
 public class Animal {
     private MapDirection direction = MapDirection.NORTH;
-    private final Vector2d position = new Vector2d(2,2);
+    private Vector2d position = new Vector2d(2,2);
+
+    public Vector2d getPosition() {
+        return position;
+    }
+    public MapDirection getDirection() {
+        return direction;
+    }
+
 
     public String toString(){
-        return "(" + position.x + ", " + position.y + ") " + direction;
+        return "(" + position.getX() + ", " + position.getY() + ") " + direction;
     }
-    boolean isAt(Vector2d position1){
-        return (position1.x==position.x && position1.y==position.y);
+    public boolean isAt(Vector2d position) {
+        return position.equals(this.position);
     }
-    public void move(MoveDirection arg){
-        switch(arg) {
-            case RIGHT -> direction = direction.next();
-            case LEFT -> direction = direction.previous();
-            case FORWARD -> if(position.x)
-            default -> direction = MapDirection.OTHER;
+    private boolean canMoveForward() {
+        return ((this.direction == MapDirection.NORTH) && (this.position.getY() < 4)) ||
+                ((this.direction == MapDirection.EAST) && (this.position.getX() < 4)) ||
+                ((this.direction == MapDirection.SOUTH) && (this.position.getY() > 0)) ||
+                ((this.direction == MapDirection.WEST) && (this.position.getX() > 0));
+    }
 
+    private boolean canMoveBackward() {
+        return ((this.direction == MapDirection.NORTH) && (this.position.getY() > 0)) ||
+                ((this.direction == MapDirection.EAST) && (this.position.getX() > 0)) ||
+                ((this.direction == MapDirection.SOUTH) && (this.position.getY() < 4)) ||
+                ((this.direction == MapDirection.WEST) && (this.position.getX() < 4));
+    }
+
+    public void move(MoveDirection direction) {
+        switch (direction) {
+            case FORWARD -> {
+                if (canMoveForward()) {
+                    position = position.add(this.direction.toUnitVector());
+                }
+            }
+            case BACKWARD -> {
+                if (canMoveBackward()) {
+                    position = position.subtract(this.direction.toUnitVector());
+                }
+            }
+            case LEFT -> this.direction = this.direction.previous();
+            case RIGHT -> this.direction = this.direction.next();
+            case NONE -> {}
         }
     }
 }

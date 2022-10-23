@@ -1,9 +1,18 @@
 package agh.ics.oop;
 
+import java.util.List;
+
+import static agh.ics.oop.OptionsParser.parse;
+
 public class World {
     public static void main (String[] args){
         Animal zwierz = new Animal();
         System.out.println(zwierz.toString());
+        List<MoveDirection> directions = parse(args);
+        for(MoveDirection direction : directions){
+            zwierz.move(direction);
+        }
+        System.out.println(zwierz);
     }
 
     public static Direction[] change(String[] directions) {
