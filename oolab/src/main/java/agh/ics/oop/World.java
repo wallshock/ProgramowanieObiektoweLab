@@ -2,17 +2,14 @@ package agh.ics.oop;
 
 import java.util.List;
 
-import static agh.ics.oop.OptionsParser.parse;
 
 public class World {
     public static void main (String[] args){
-        Animal zwierz = new Animal();
-        System.out.println(zwierz.toString());
-        List<MoveDirection> directions = parse(args);
-        for(MoveDirection direction : directions){
-            zwierz.move(direction);
-        }
-        System.out.println(zwierz);
+        MoveDirection[] directions = new OptionsParser().parse(args);
+        IWorldMap map = new RectangularMap(10, 5);
+        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
+        IEngine engine = new SimulationEngine(directions, map, positions);
+        engine.run();
     }
 
     public static Direction[] change(String[] directions) {

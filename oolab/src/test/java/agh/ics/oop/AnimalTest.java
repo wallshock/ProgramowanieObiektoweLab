@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static agh.ics.oop.OptionsParser.parse;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AnimalTest {
@@ -21,10 +19,10 @@ class AnimalTest {
     @Test
     void moveTest() {
         String[] args = {"f", "r", "b", "l", "b", "left", "right", "backward", "forward", "for", "back", "bi", "ri", "test", " ", ""};
-        List<MoveDirection> directions = parse(args);
-        for (MoveDirection direction : directions) {
-            animal.move(direction);
-        }
+        MoveDirection[] directions = OptionsParser.parse(args);
+
+        for (MoveDirection direction : directions) {animal.move(direction);}
+
         assertAll(
                 () -> assertEquals(MapDirection.NORTH, animal.getDirection()),
                 () -> assertTrue(animal.isAt(new Vector2d(1, 2)))
@@ -38,10 +36,12 @@ class AnimalTest {
         String[] args2 = {"b", "b", "b", "b", "b", "b", "b"};
         String[] args3 = {"r", "f", "f", "f", "f"};
         String[] args4 = {"l", "f", "f", "f", "f", "f"};
-        List<MoveDirection> directions1 = parse(args1);
-        List<MoveDirection> directions2 = parse(args2);
-        List<MoveDirection> directions3 = parse(args3);
-        List<MoveDirection> directions4 = parse(args4);
+
+        MoveDirection[] directions1 = OptionsParser.parse(args1);
+        MoveDirection[] directions2 = OptionsParser.parse(args2);
+        MoveDirection[] directions3 = OptionsParser.parse(args3);
+        MoveDirection[] directions4 = OptionsParser.parse(args4);
+
         Animal test2 = new Animal();
         Animal test3 = new Animal();
         Animal test4 = new Animal();
