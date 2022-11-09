@@ -23,9 +23,7 @@ public class SimulationEngine implements IEngine {
                 animalList.add(animal);
             }
         }
-
     }
-
     @Override
     public void run() {
         System.out.println(map);

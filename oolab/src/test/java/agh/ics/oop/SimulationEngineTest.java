@@ -13,6 +13,7 @@ public class SimulationEngineTest {
         IEngine engine = new SimulationEngine(directions, map, positions);
         engine.run();
 
+
         assertAll(
                 () -> assertTrue(map.isOccupied(new Vector2d(2, 4))),
                 () -> assertTrue(map.isOccupied(new Vector2d(3, 0))),
@@ -34,6 +35,7 @@ public class SimulationEngineTest {
         Animal zwierz3 = new Animal(map, new Vector2d(3,17));
         Animal zwierz4 = new Animal(map, new Vector2d(12,0));
 
+
         assertAll(
                 () -> assertFalse(map.place(zwierz)),
                 () -> assertTrue(map.place(zwierz2)),
@@ -51,6 +53,7 @@ public class SimulationEngineTest {
         IEngine engine = new SimulationEngine(directions, map, positions);
         engine.run();
 
+
         assertAll(
                 () -> assertFalse(map.canMoveTo(new Vector2d(1,6))),
                 () -> assertFalse(map.canMoveTo(new Vector2d(2,2))),
@@ -67,6 +70,7 @@ public class SimulationEngineTest {
         Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
         IEngine engine = new SimulationEngine(directions, map, positions);
         engine.run();
+
 
         assertAll(
                 () -> assertTrue(map.objectAt(new Vector2d(2,4)) instanceof Animal),
