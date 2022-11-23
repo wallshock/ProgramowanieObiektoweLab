@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class OptionsParserTest {
@@ -17,6 +19,6 @@ class OptionsParserTest {
 
         MoveDirection[] correctD = moveDirections;
         MoveDirection[] directions = OptionsParser.parse(arguments);
-        assertEquals(correctD,directions);
+        assertArrayEquals(correctD,directions);
     }
 }

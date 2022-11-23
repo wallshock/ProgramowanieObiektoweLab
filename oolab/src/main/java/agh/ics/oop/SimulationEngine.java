@@ -17,11 +17,11 @@ public class SimulationEngine implements IEngine {
 
         for (Vector2d position : animalPositions){
             Animal animal = new Animal(map, position);
-            if(map.place(animal)){
-                animalList.add(animal);
-            }
+            animal.addObserver((IPositionChangeObserver) map);
+            map.place(animal);
         }
     }
+
     public static JFrame createAndShowGui(String panel) {
         JFrame frame = new JFrame("Test");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,18 +41,30 @@ public class SimulationEngine implements IEngine {
         gui.add(area);
         Font font = new Font("Sans Serif", Font.ITALIC, 20);
         area.setFont(font);
-        for (int i = 0; i < moveDirectionList.length; i++){
-            animalList.get(i % animalList.size()).move(moveDirectionList[i]);
-            area.setText("");
-            area.setText(map.toString());
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                // handle the exception...
-                // For example consider calling Thread.currentThread().interrupt(); here.
-            }
+        try {
+            Thread.sleep(1500);
             System.out.println(map);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            // handle the exception...
+            // For example consider calling Thread.currentThread().interrupt(); here.
+        }
+        int i = 0;
+        while (i < moveDirectionList.length) {
+            for (Animal a : ((AbstractWorldMap) map).getAnimals()) {
+                if (i == moveDirectionList.length) break;
+                a.move(moveDirectionList[i]);
+                area.setText(map.toString());
+                try {
+                    Thread.sleep(500);
+                    System.out.println(map);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    // handle the exception...
+                    // For example consider calling Thread.currentThread().interrupt(); here.
+                }
+                i++;
+            }
         }
     }
 }

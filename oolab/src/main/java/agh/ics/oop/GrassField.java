@@ -1,14 +1,15 @@
 package agh.ics.oop;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-public class GrassField extends AbstractWorldMap{
-    public GrassField(int p){
-        this.grassList = new ArrayList<Grass>();
+public class GrassField extends AbstractWorldMap {
+    public GrassField(int p) {
+        this.grassMap = new HashMap<>();
         this.lowerBound = new Vector2d(0, 0);
-        this.upperBound = new Vector2d((int)Math.sqrt(p*10), (int)Math.sqrt(p*10));
+        this.upperBound = new Vector2d((int) Math.sqrt(p * 10), (int) Math.sqrt(p * 10));
         placeGrass(p);
         updateMap();
 
@@ -23,65 +24,55 @@ public class GrassField extends AbstractWorldMap{
             int randY = rand.nextInt(Max);
             Vector2d grassPosition = new Vector2d(randX, randY);
             if (objectAt(grassPosition) == null) {
-                grassList.add(new Grass(grassPosition));
+                grassMap.put(grassPosition, new Grass(grassPosition));
                 i++;
             }
         }
     }
 
 
-    public void updateMap(){
-        this.lowerBound= grassList.get(0).getPosition();
-        this.upperBound= grassList.get(0).getPosition();
-        for (Animal animal : animalList){
+    public void updateMap() {
+        this.lowerBound = new Vector2d(0,0);
+        this.upperBound = new Vector2d(0,0);
+        for (Animal animal : animalMap.values()) {
             this.lowerBound = lowerBound.lowerLeft(animal.getPosition());
             this.upperBound = upperBound.upperRight(animal.getPosition());
         }
 
 
-        for (Grass grass : grassList){
+        for (Grass grass : grassMap.values()) {
             this.lowerBound = lowerBound.lowerLeft(grass.getPosition());
             this.upperBound = upperBound.upperRight(grass.getPosition());
         }
 
     }
+    @Override
+    public boolean place(Animal animal) {
+        return super.place(animal);
+    }
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        for (Grass g : grassList) {
-            if (g.getPosition().equals(position)) {
-                return true;
-            }
-        }
-        return super.isOccupied(position);
+        return grassMap.containsKey(position) || super.isOccupied(position);
     }
 
     @Override
     public Object objectAt(Vector2d position) {
-        Object a = super.objectAt(position);
-        if (a != null) {
-            return a;
+        Object o = super.objectAt(position);
+        if (o != null) {
+            return o;
         }
-        for (Grass g : grassList) {
-            if (g.getPosition().equals(position)) {
-                return g;
-            }
-        }
-        return null;
+        return grassMap.get(position);
     }
 
     @Override
     public boolean canMoveTo(Vector2d position) {
         Object obj = this.objectAt(position);
-        if(obj instanceof Grass){
-            for(int i=0;i<grassList.size();i++){
-                if(grassList.get(i).getPosition().equals(((Grass) obj).getPosition())){
-                    grassList.remove(i);
-                    placeGrass(1);
-                    break;
-                }
-            }
+        if (obj instanceof Grass) {
+            grassMap.remove(position);
+            placeGrass(1);
         }
-        return obj == null || obj instanceof Grass;
+        return obj ==null||obj instanceof Grass;
     }
 }
+

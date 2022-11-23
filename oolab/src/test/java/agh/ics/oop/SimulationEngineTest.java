@@ -6,19 +6,19 @@ public class SimulationEngineTest {
 
     @Test
     public void isOccupiedTest() {
-        String[] args = {"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"};
+        String[] args = {"f", "b"};
         MoveDirection[] directions = OptionsParser.parse(args);
-        IWorldMap map = new RectangularMap(10, 5);
+        IWorldMap map = new GrassField(10);
         Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
         IEngine engine = new SimulationEngine(directions, map, positions);
         engine.run();
 
 
         assertAll(
-                () -> assertTrue(map.isOccupied(new Vector2d(2, 4))),
-                () -> assertTrue(map.isOccupied(new Vector2d(3, 0))),
+                () -> assertFalse(map.isOccupied(new Vector2d(2, 4))),
+                () -> assertFalse(map.isOccupied(new Vector2d(3, 0))),
                 () -> assertFalse(map.isOccupied(new Vector2d(3, 1))),
-                () -> assertFalse(map.isOccupied(new Vector2d(2, 3)))
+                () -> assertTrue(map.isOccupied(new Vector2d(2, 3)))
         );
     }
 

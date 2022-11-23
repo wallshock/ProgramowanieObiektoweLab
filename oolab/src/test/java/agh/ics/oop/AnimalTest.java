@@ -11,13 +11,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class AnimalTest {
     Animal animal;
 
-    @BeforeEach
-    void setUp() {
-        animal = new Animal();
-    }
-
     @Test
     void moveTest() {
+        IWorldMap maps = new RectangularMap(10, 5);
+        animal = new Animal(maps);
         String[] args = {"f", "r", "b", "l", "b", "left", "right", "backward", "forward", "for", "back", "bi", "ri", "test", " ", ""};
         MoveDirection[] directions = OptionsParser.parse(args);
 
@@ -32,6 +29,8 @@ class AnimalTest {
     @Test
     void goingOutMap() {
         // given
+        IWorldMap maps = new RectangularMap(10, 5);
+        animal = new Animal(maps);
         String[] args1 = {"f", "f", "f", "f", "f"};
         String[] args2 = {"b", "b", "b", "b", "b", "b", "b"};
         String[] args3 = {"r", "f", "f", "f", "f"};
@@ -42,9 +41,9 @@ class AnimalTest {
         MoveDirection[] directions3 = OptionsParser.parse(args3);
         MoveDirection[] directions4 = OptionsParser.parse(args4);
 
-        Animal test2 = new Animal();
-        Animal test3 = new Animal();
-        Animal test4 = new Animal();
+        Animal test2 = new Animal(maps);
+        Animal test3 = new Animal(maps);
+        Animal test4 = new Animal(maps);
 
         //when
         for (MoveDirection direction : directions1) {
@@ -63,13 +62,15 @@ class AnimalTest {
         assertAll(
                 () -> assertEquals(new Vector2d(2, 4), animal.getPosition()),
                 () -> assertEquals(new Vector2d(2, 0), test2.getPosition()),
-                () -> assertEquals(new Vector2d(4, 2), test3.getPosition()),
+                () -> assertEquals(new Vector2d(6, 2), test3.getPosition()),
                 () -> assertEquals(new Vector2d(0, 2), test4.getPosition())
         );
 
     }
     @Test
     void orientationTest(){
+        IWorldMap maps = new RectangularMap(10, 5);
+        animal = new Animal(maps);
         List<MapDirection> orientations = new ArrayList<>();
         MapDirection[] answer = {MapDirection.NORTH,MapDirection.EAST,MapDirection.SOUTH,MapDirection.WEST,MapDirection.NORTH,MapDirection.NORTH,MapDirection.WEST,MapDirection.SOUTH,MapDirection.EAST,MapDirection.NORTH};
         for(int i=0;i<5;++i) {
