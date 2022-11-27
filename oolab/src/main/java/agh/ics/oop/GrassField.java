@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Random;
 
 public class GrassField extends AbstractWorldMap {
+    private MapBoundary limits = new MapBoundary(this);
     public GrassField(int p) {
         this.grassMap = new HashMap<>();
         this.lowerBound = new Vector2d(0, 0);
         this.upperBound = new Vector2d((int) Math.sqrt(p * 10), (int) Math.sqrt(p * 10));
         placeGrass(p);
         updateMap();
-
     }
 
     private void placeGrass(int grassLimit) {
@@ -25,6 +25,7 @@ public class GrassField extends AbstractWorldMap {
             Vector2d grassPosition = new Vector2d(randX, randY);
             if (objectAt(grassPosition) == null) {
                 grassMap.put(grassPosition, new Grass(grassPosition));
+                limits.addElement(grassPosition);
                 i++;
             }
         }
@@ -32,23 +33,18 @@ public class GrassField extends AbstractWorldMap {
 
 
     public void updateMap() {
-        this.lowerBound = new Vector2d(0,0);
-        this.upperBound = new Vector2d(0,0);
-        for (Animal animal : animalMap.values()) {
-            this.lowerBound = lowerBound.lowerLeft(animal.getPosition());
-            this.upperBound = upperBound.upperRight(animal.getPosition());
-        }
-
-
-        for (Grass grass : grassMap.values()) {
-            this.lowerBound = lowerBound.lowerLeft(grass.getPosition());
-            this.upperBound = upperBound.upperRight(grass.getPosition());
-        }
-
+        Vector2d[] pos= limits.getBoundaries();
+        this.lowerBound = pos[0];
+        this.upperBound = pos[1];
     }
     @Override
     public boolean place(Animal animal) {
-        return super.place(animal);
+        if(this.animalMap.get(animal.getPosition()) != null){
+            throw new IllegalArgumentException(animal.getPosition().toString() + " is not valid position");
+        }
+        this.animalMap.put(animal.getPosition(),animal);
+        limits.addElement(animal.getPosition());
+        return true;
     }
 
     @Override
@@ -73,6 +69,16 @@ public class GrassField extends AbstractWorldMap {
             placeGrass(1);
         }
         return obj ==null||obj instanceof Grass;
+    }
+    @Override
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        if(!newPosition.equals(oldPosition)) {
+            Animal a = animalMap.remove(oldPosition);
+            limits.removeElement(oldPosition);
+            animalMap.put(newPosition, a);
+            limits.addElement(newPosition);
+            updateMap();
+        }
     }
 }
 

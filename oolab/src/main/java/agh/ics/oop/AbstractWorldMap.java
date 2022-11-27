@@ -1,16 +1,14 @@
 package agh.ics.oop;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObserver {
-    protected List<Animal> animalsList = new ArrayList<>();
     protected Map<Vector2d,Animal> animalMap= new HashMap<Vector2d,Animal>();
     protected Map<Vector2d,Grass> grassMap= new HashMap<Vector2d,Grass>();
     protected Vector2d lowerBound;
     protected Vector2d upperBound;
+    protected MapBoundary limits;
     abstract public void updateMap();
 
     @Override
@@ -21,19 +19,23 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
         if(!newPosition.equals(oldPosition)) {
             Animal a = animalMap.remove(oldPosition);
+            limits.removeElement(oldPosition);
             animalMap.put(newPosition, a);
+            System.out.print("Added element:");
+            System.out.println(newPosition);
+            limits.addElement(newPosition);
+            updateMap();
         }
-    }
-    public List<Animal> getAnimals() {
-        return this.animalsList;
     }
     @Override
     public boolean place(Animal animal) {
         if(this.animalMap.get(animal.getPosition()) != null){
-            return false;
+            throw new IllegalArgumentException(animal.getPosition().toString() + " is not valid position");
         }
-        this.animalsList.add(animal);
         this.animalMap.put(animal.getPosition(),animal);
+        System.out.print("Added element:");
+        System.out.println(animal.getPosition());
+        limits.addElement(animal.getPosition());
         return true;
     }
 
@@ -56,9 +58,6 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
 
     @Override
     public String toString(){
-        updateMap();
-        System.out.println(lowerBound);
-        System.out.println(upperBound);
         return new MapVisualizer(this).draw(lowerBound, upperBound);
     }
 

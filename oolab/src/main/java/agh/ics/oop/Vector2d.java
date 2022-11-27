@@ -11,6 +11,14 @@ public class Vector2d {
         this.y = y;
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     @Override
     public String toString() {return "(%d, %d)".formatted(x, y);}
     boolean precedes(Vector2d other){ return x <= other.x && y <= other.y; }
@@ -41,21 +49,15 @@ public class Vector2d {
 
         return new Vector2d(tempx, tempy);
     }
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!(other instanceof Vector2d vec2)) return false;
+        return this.x == vec2.x && this.y == vec2.y;
+    }
 
     @Override
-    public boolean equals(Object other){
-        if (this == other){return true;}
-        if (!(other instanceof Vector2d)){return false;}
-        else {
-            Vector2d other1 =(Vector2d)other;
-            if (other1.x == this.x && other1.y == this.y) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
-    @Override
     public int hashCode() {
-        return Objects.hash(this.x, this.y);
-    }}
+        return Objects.hash(x, y);
+    }
+}

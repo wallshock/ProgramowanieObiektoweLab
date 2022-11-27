@@ -3,22 +3,26 @@ package agh.ics.oop;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SimulationEngine implements IEngine {
     private final IWorldMap map;
     private final MoveDirection[] moveDirectionList;
-    private final List<Animal> animalList;
+    protected Map<Vector2d,Animal> animalMap;
 
     public SimulationEngine(MoveDirection[] moveDirectionList, IWorldMap map, Vector2d[] animalPositions){
         this.map = map;
         this.moveDirectionList = moveDirectionList;
-        this.animalList = new ArrayList<Animal>();
+        this.animalMap= new HashMap<Vector2d,Animal>();
 
         for (Vector2d position : animalPositions){
             Animal animal = new Animal(map, position);
             animal.addObserver((IPositionChangeObserver) map);
-            map.place(animal);
+            if(map.place(animal)){
+                animalMap.put(position,animal);
+            };
         }
     }
 
@@ -51,7 +55,7 @@ public class SimulationEngine implements IEngine {
         }
         int i = 0;
         while (i < moveDirectionList.length) {
-            for (Animal a : ((AbstractWorldMap) map).getAnimals()) {
+            for (Animal a : animalMap.values()) {
                 if (i == moveDirectionList.length) break;
                 a.move(moveDirectionList[i]);
                 area.setText(map.toString());

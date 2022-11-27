@@ -3,7 +3,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 public class GrassFieldTest {
     private final IWorldMap map = new GrassField(10);
-
     @Test
     void canMoveTo(){
         this.map.place(new Animal(this.map,new Vector2d(2,4)));
@@ -18,8 +17,8 @@ public class GrassFieldTest {
     void place(){
         assertAll (
                 () -> assertTrue(this.map.place(new Animal(this.map,new Vector2d(2,6)))),
-                () ->assertFalse(this.map.place(new Animal(this.map,new Vector2d(2,6)))),
-                ()-> assertTrue(this.map.place(new Animal(this.map,new Vector2d(5,5))))
+                ()-> assertTrue(this.map.place(new Animal(this.map,new Vector2d(5,5)))),
+                ()->assertThrows(IllegalArgumentException.class,()->this.map.place(new Animal(this.map,new Vector2d(2, 6))))
         );
     }
 
