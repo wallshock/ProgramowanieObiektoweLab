@@ -14,25 +14,6 @@ import javax.swing.*;
 
 public class World {
     public static void main (String[] args) {
-        MoveDirection[] directions;
-
-        try {
-            directions = OptionsParser.parse(args);
-        } catch (IllegalArgumentException e) {
-            throw e;
-        }
-
-        IWorldMap map = new GrassField(10);
-        Vector2d[] positions;
-
-        try {
-            positions = new Vector2d[]{new Vector2d(2, 2), new Vector2d(3, 4)};
-        } catch (IllegalArgumentException e) {
-            throw e;
-        }
-
-        IEngine engine = new SimulationEngine(directions, map, positions);
-        engine.run();
         Application.launch(App.class, args);
     }
 }

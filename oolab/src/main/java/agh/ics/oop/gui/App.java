@@ -18,20 +18,27 @@ public class App extends Application {
     private AbstractWorldMap map;
 
     @Override
-    public void init() throws Exception{
-
+    public void init() throws IllegalArgumentException{
         String[] args = getParameters().getRaw().toArray(new String[0]);
+        MoveDirection[] directions;
 
-        try{
-            MoveDirection[] directions = new OptionsParser().parse(args);
-            map = new GrassField(10);
-            Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
-            IEngine engine = new SimulationEngine(directions, map, positions);
-//            engine.run();
+        try {
+            directions = OptionsParser.parse(args);
+        } catch (IllegalArgumentException e) {
+            throw e;
         }
-        catch (IllegalArgumentException e){
-            System.out.println(e.getMessage());
+
+        map = new GrassField(10);
+        Vector2d[] positions;
+
+        try {
+            positions = new Vector2d[]{new Vector2d(2, 2), new Vector2d(3, 4)};
+        } catch (IllegalArgumentException e) {
+            throw e;
         }
+
+        IEngine engine = new SimulationEngine(directions, map, positions);
+        engine.run();
 
     }
 
@@ -42,14 +49,11 @@ public class App extends Application {
         int yMin = map.getdown().y;
         int xMax = map.getup().x;
         int yMax = map.getup().y;
-
         int width = 30;
         int height = 30;
-
         GridPane gridPane = new GridPane();
         gridPane.setGridLinesVisible(true);
-
-        GridPane.setHalignment(new Label("y/x"), HPos.CENTER); //wyśrodkowanie etykiet
+        GridPane.setHalignment(new Label("y/x"), HPos.CENTER);
         gridPane.getColumnConstraints().add(new ColumnConstraints(width));
         gridPane.getRowConstraints().add(new RowConstraints(height));
         gridPane.add(new Label("y/x"), 0, 0);
@@ -63,7 +67,7 @@ public class App extends Application {
         }
 
         for (int i = 1; i <= yMax - yMin + 1; i++){
-            Label label = new Label(Integer.toString(yMax - i +1)); //tutaj yMax, bo współrzędne y rosną w kierunku "do góry"
+            Label label = new Label(Integer.toString(yMax - i +1));
             GridPane.setHalignment(new Label("y/x"), HPos.CENTER);
             gridPane.getRowConstraints().add(new RowConstraints(height));
             gridPane.add(label, 0, i);

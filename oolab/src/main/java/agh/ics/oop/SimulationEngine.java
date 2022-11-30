@@ -33,7 +33,7 @@ public class SimulationEngine implements IEngine {
                 if (i == moveDirectionList.length) break;
                 a.move(moveDirectionList[i]);
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(10);
                     System.out.println(map);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
