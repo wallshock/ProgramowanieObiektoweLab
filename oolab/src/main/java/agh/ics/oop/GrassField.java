@@ -80,5 +80,15 @@ public class GrassField extends AbstractWorldMap {
             updateMap();
         }
     }
+    public Vector2d getdown(){
+        return limits.getLowerLeft();
+    };
+
+
+    @Override
+    public Vector2d getup(){
+        return limits.getUpperRight();
+    };
+
 }
 

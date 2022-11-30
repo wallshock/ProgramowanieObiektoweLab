@@ -21,8 +21,6 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
             Animal a = animalMap.remove(oldPosition);
             limits.removeElement(oldPosition);
             animalMap.put(newPosition, a);
-            System.out.print("Added element:");
-            System.out.println(newPosition);
             limits.addElement(newPosition);
             updateMap();
         }
@@ -33,8 +31,6 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
             throw new IllegalArgumentException(animal.getPosition().toString() + " is not valid position");
         }
         this.animalMap.put(animal.getPosition(),animal);
-        System.out.print("Added element:");
-        System.out.println(animal.getPosition());
         limits.addElement(animal.getPosition());
         return true;
     }
@@ -55,6 +51,13 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
         }
         return null;
     }
+    public Vector2d getdown(){
+        return limits.getLowerLeft();
+    };
+
+    public Vector2d getup(){
+        return limits.getUpperRight();
+    };
 
     @Override
     public String toString(){

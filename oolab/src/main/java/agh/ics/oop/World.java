@@ -1,5 +1,8 @@
 package agh.ics.oop;
 
+import agh.ics.oop.gui.App;
+import javafx.application.Application;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -30,6 +33,7 @@ public class World {
 
         IEngine engine = new SimulationEngine(directions, map, positions);
         engine.run();
+        Application.launch(App.class, args);
     }
 }
 

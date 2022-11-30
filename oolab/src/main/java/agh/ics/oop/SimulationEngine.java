@@ -25,42 +25,15 @@ public class SimulationEngine implements IEngine {
             };
         }
     }
-
-    public static JFrame createAndShowGui(String panel) {
-        JFrame frame = new JFrame("Test");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        frame.setSize(1000,1000);
-        return frame;
-    }
     @Override
     public void run() {
-        JFrame gui = createAndShowGui(map.toString());
-        JTextArea area = new JTextArea();
-        area.setVisible(true);
-        area.setFont(area.getFont().deriveFont(30f));
-        area.setBounds(400,400,1000,1000);
-        gui.add(area);
-        Font font = new Font("Sans Serif", Font.ITALIC, 20);
-        area.setFont(font);
-        try {
-            Thread.sleep(1500);
-            System.out.println(map);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            // handle the exception...
-            // For example consider calling Thread.currentThread().interrupt(); here.
-        }
         int i = 0;
         while (i < moveDirectionList.length) {
             for (Animal a : animalMap.values()) {
                 if (i == moveDirectionList.length) break;
                 a.move(moveDirectionList[i]);
-                area.setText(map.toString());
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(1000);
                     System.out.println(map);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
